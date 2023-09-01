@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
+
 /* MÓDULO dotenv */
 const dotenv = require('dotenv');
 
@@ -16,12 +17,20 @@ var usersRouter = require('./routes/users');
 /* CARGA DEL MIDDLEWARE authenticateJWT */
 var authenticateJWT = require('./middleware/auth');
 
+/* REFERENCIA AL MÓDULO */
+const swaggerUi = require('swagger-ui-express')
+/* REFERENCIA AL ARCHIVO GENERADO */
+const swaggerFile = require('./swagger_output.json')
+
 var app = express();
 
 //referencia al manejador de rutas
 var webhciRouter = require('./routes/rest_webhci');
 var profesorRouter = require('./routes/rest_profesor');
 var cursoRouter = require('./routes/rest_curso');
+
+/* CONFIGURACIÓN DE LA RUTA A LA DOCUMENTACIÓN */
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 /* AGREGUE EL MIDDLEWARE CORS */
 app.use(cors());
